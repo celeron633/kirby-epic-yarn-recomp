@@ -145,6 +145,8 @@ int main(int argc, char** argv) {
     float masterVolume = 100;
     bool vsync = true;
     bool gpuResidentCopies = false;
+    int resolutionScale = 1, msaaSamples = 1;
+    bool fxaa = false;
     std::filesystem::path configPath = "local/user/settings.toml";
     bool volumeOverride = false, dataOverride = false, vsyncOverride = false, copiesOverride = false;
     bool explicitConfig = false;
@@ -190,6 +192,9 @@ int main(int argc, char** argv) {
             const auto settings = Kirby::LoadSettings(configPath);
             controlBindings = settings.controls;
             motionSettings = settings.motion;
+            resolutionScale = settings.resolutionScale;
+            msaaSamples = settings.msaaSamples;
+            fxaa = settings.fxaa;
             if (!volumeOverride) masterVolume = settings.masterVolume;
             if (!dataOverride) dataRoot = settings.gameData;
             if (!vsyncOverride) vsync = settings.vsync;
@@ -199,7 +204,8 @@ int main(int argc, char** argv) {
         }
     }
     if (mode == "--print-settings") {
-        std::cout << Kirby::FormatSettings({dataRoot, masterVolume, vsync, gpuResidentCopies, controlBindings, motionSettings});
+        std::cout << Kirby::FormatSettings({dataRoot, masterVolume, vsync, gpuResidentCopies, controlBindings, motionSettings,
+                                           resolutionScale, msaaSamples, fxaa});
         return 0;
     }
 #ifdef _WIN32
@@ -743,7 +749,7 @@ int main(int argc, char** argv) {
                 std::memcpy(memory, bytes.data(), bytes.size());
             });
             if (mode == "--video" || mode == "--video-hidden") {
-                renderer->OpenWindow(mode == "--video-hidden", vsync);
+                renderer->OpenWindow(mode == "--video-hidden", vsync, resolutionScale, msaaSamples, fxaa);
                 renderer->SetGpuResidentTextureCopies(gpuResidentCopies);
                 renderer->SetGpuResidentDisplayCopies(gpuResidentCopies);
                 renderer->SetTextureSnapshotReuse(gpuResidentCopies);

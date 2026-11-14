@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add 1x–6x and 8x internal resolution and Off/FXAA/4x MSAA/4x MSAA + FXAA to the launcher and shared
+  settings. Preserve scaled display/effect textures while keeping guest RAM copy
+  layouts at native resolution. Support multisampled color/depth readback and
+  depth texture copies. Cover edge smoothing, scaled GPU copies, settings and
+  native startup with ordinary and experimental performance modes.
+
 - Build and run the native game and launcher on Windows x64 with LLVM-MinGW,
   the Windows SDK and Vulkan, using the existing translation/runtime pipeline.
 - Adapt extracted-disc and NAND descriptor operations to Windows; preserve

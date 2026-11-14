@@ -1,2 +1,2 @@
-# Unified patches preserve the leading space on blank context lines.
-*.patch whitespace=-blank-at-eol
+# Unified patches prefix context lines with a space, including blank/tab-indented lines.
+*.patch whitespace=-blank-at-eol,-space-before-tab
